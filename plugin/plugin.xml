@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PluginDescriptor>
+  <JavaPlugin>
+    <interfaceClass>org.bimserver.plugins.serializers.SerializerPlugin</interfaceClass>
+    <implementationClass>nz.ac.auckland.cs.XSDQueryPlugin</implementationClass>
+    <description>Filter parts of a model infoset using an XSD</description>
+    <name>XSDQuery</name>
+  </JavaPlugin>
+</PluginDescriptor>
