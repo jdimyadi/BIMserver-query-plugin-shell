@@ -2,8 +2,8 @@
 <PluginDescriptor>
   <JavaPlugin>
     <interfaceClass>org.bimserver.plugins.serializers.SerializerPlugin</interfaceClass>
-    <implementationClass>nz.ac.auckland.cs.XSDQueryPlugin</implementationClass>
-    <description>Filter parts of a model infoset using an XSD</description>
-    <name>XSDQuery</name>
+    <implementationClass>nz.ac.auckland.cs.CompiledQueryPlugin</implementationClass>
+    <description>A plugin for BIMserver that runs queries that have been precompiled to class files</description>
+    <name>CompiledQuery</name>
   </JavaPlugin>
 </PluginDescriptor>
