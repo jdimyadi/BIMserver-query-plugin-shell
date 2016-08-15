@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PluginDescriptor>
-  <JavaPlugin>
-    <interfaceClass>org.bimserver.plugins.serializers.SerializerPlugin</interfaceClass>
+  <PluginImplementation>
+    <interfaceClass>org.bimserver.plugins.queryengine.QueryEnginePlugin</interfaceClass>
     <implementationClass>nz.ac.auckland.cs.CompiledQueryPlugin</implementationClass>
     <description>A plugin for BIMserver that runs queries that have been precompiled to class files</description>
     <name>CompiledQuery</name>
-  </JavaPlugin>
+    <enabled>true</enabled>
+  </PluginImplementation>
 </PluginDescriptor>
