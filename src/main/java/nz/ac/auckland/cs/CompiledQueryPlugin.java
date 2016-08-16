@@ -31,6 +31,7 @@ import org.bimserver.utils.PathUtils;
 import java.util.ArrayList;
 import java.net.URLClassLoader;
 import com.google.common.base.Charsets;
+import java.net.URI;
 
 
 public class CompiledQueryPlugin implements QueryEnginePlugin {
@@ -44,9 +45,14 @@ public class CompiledQueryPlugin implements QueryEnginePlugin {
 	private PluginManager pluginManager;
   private ArrayList<java.net.URL> jarlist = new ArrayList<java.net.URL>();
   private final java.net.URL[] signal = {};
+  private URI base_path;
 
 	@Override
 	public void init(PluginManager pluginManager) throws PluginException {
+    try {
+      base_path = new URI("https://raw.githubusercontent.com/flaviusb/bim-bits/master/");
+    } catch (java.net.URISyntaxException e) {
+    }
 		this.pluginManager = pluginManager;
 		initialized = true;
 		initExamples(pluginManager);
@@ -55,13 +61,19 @@ public class CompiledQueryPlugin implements QueryEnginePlugin {
 	private void initExamples(PluginManager pluginManager) {
 		PluginContext pluginContext = pluginManager.getPluginContext(this);
 		try {
-			for (Path path : PathUtils.list(pluginContext.getRootPath().resolve("MVD"))) {
-				InputStream inputStream = Files.newInputStream(path.resolve("name.txt"));
-        String name = IOUtils.toString(inputStream, Charsets.UTF_8.name());
-				examples.put(name, name);
-        name_to_class.put(name, path.getFileName().toString());
-        jarlist.add(path.resolve("mvd.jar").toUri().toURL());
-			}
+      
+      InputStream names_in = base_path.resolve("all.txt").toURL().openStream();
+      String[] names = IOUtils.toString(names_in, Charsets.UTF_8.name()).split("\n");
+      names_in.close();
+      for(String class_name : names) {
+        URI mvd_base = base_path.resolve("MVD/" + class_name + "/");
+        InputStream name_stream = mvd_base.resolve("name.txt").toURL().openStream();
+        String human_readable_name = IOUtils.toString(name_stream, Charsets.UTF_8.name());
+        name_stream.close();
+        examples.put(human_readable_name, human_readable_name);
+        name_to_class.put(human_readable_name, class_name);
+        jarlist.add(mvd_base.resolve("mvd.jar").toURL());
+      }
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
