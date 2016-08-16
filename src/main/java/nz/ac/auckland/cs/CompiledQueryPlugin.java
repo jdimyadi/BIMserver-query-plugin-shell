@@ -33,7 +33,7 @@ import java.net.URLClassLoader;
 import com.google.common.base.Charsets;
 
 
-class CompiledQueryPlugin implements QueryEnginePlugin {
+public class CompiledQueryPlugin implements QueryEnginePlugin {
 	private boolean initialized = false;
   // These are referred to as 'examples' in the UI, but these are actually all of the available compiled MVDs
   // Each 'query' is just a single named MVD at this point.

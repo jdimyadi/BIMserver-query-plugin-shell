@@ -22,7 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.net.URLClassLoader;
 
-class CompiledQuery implements QueryEngine {
+public class CompiledQuery implements QueryEngine {
 	private final URLClassLoader classLoader;
 	private Path rootPath;
   private Map<String, String> name_to_class = new LinkedHashMap<String, String>();
