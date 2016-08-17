@@ -35,7 +35,8 @@ public class CompiledQuery implements QueryEngine {
 	@Override
 	public IfcModelInterface query(IfcModelInterface model, String code, Reporter reporter, ModelHelper modelHelper) {
     try {
-      if(!name_to_class.containsValue(code)) {
+      if(!name_to_class.containsKey(code)) {
+        reporter.info("Nonexistent filter tried.");
         return null;
       }
       QueryInterface the_query = (QueryInterface) classLoader.loadClass(name_to_class.get(code)).newInstance();
