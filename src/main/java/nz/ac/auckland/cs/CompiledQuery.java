@@ -41,8 +41,11 @@ public class CompiledQuery implements QueryEngine {
       QueryInterface the_query = (QueryInterface) classLoader.loadClass(name_to_class.get(code)).newInstance();
       return the_query.query(model, reporter, modelHelper);
     } catch (ClassNotFoundException e) {
+      reporter.error(e);
     } catch (InstantiationException e) {
+      reporter.error(e);
     } catch (IllegalAccessException e) {
+      reporter.error(e);
     }
     return null;
   }
