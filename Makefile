@@ -8,9 +8,7 @@ BIMserver-query-plugin-shell.jar: src/main/java/nz/ac/auckland/cs/*.java
 	mkdir built
 	javac -classpath "$(BIMSERVER_JARS)" -sourcepath ./src/main/java -d built src/main/java/nz/ac/auckland/cs/*.java
 	cp -R plugin/ built
-	cd built
-	jar cf BIMserver-query-plugin-shell.jar *
-	cd -
+	cd built && jar cf BIMserver-query-plugin-shell.jar * && cd ..
 	mv built/BIMserver-query-plugin-shell.jar BIMserver-query-plugin-shell.jar
 
 all: BIMserver-query-plugin-shell.jar
