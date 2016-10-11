@@ -25,6 +25,7 @@ import org.bimserver.plugins.PluginConfiguration;
 import org.bimserver.plugins.PluginContext;
 import org.bimserver.plugins.PluginException;
 import org.bimserver.plugins.PluginManager;
+import org.bimserver.plugins.PluginChangeListener;
 import org.bimserver.plugins.queryengine.QueryEngine;
 import org.bimserver.plugins.queryengine.QueryEnginePlugin;
 import org.bimserver.utils.PathUtils;
@@ -34,7 +35,7 @@ import com.google.common.base.Charsets;
 import java.net.URI;
 
 
-public class CompiledQueryPlugin implements QueryEnginePlugin {
+public class CompiledQueryPlugin implements QueryEnginePlugin, PluginChangeListener {
 	private boolean initialized = false;
   // These are referred to as 'examples' in the UI, but these are actually all of the available compiled MVDs
   // Each 'query' is just a single named MVD at this point.
@@ -47,19 +48,34 @@ public class CompiledQueryPlugin implements QueryEnginePlugin {
   private final java.net.URL[] signal = {};
   private URI base_path;
 
+  public void pluginStateChanged(PluginContext context, boolean enabled) {
+    if(enabled && initialized) {
+      // Explicitly redo initialization every time you reenable the plugin
+      // This allows for a quick and easy way to force refresh the mvd catalog
+      initExamples(context);
+    }
+  }
+
 	@Override
 	public void init(PluginManager pluginManager) throws PluginException {
     try {
       base_path = new URI("https://raw.githubusercontent.com/flaviusb/bim-bits/master/");
     } catch (java.net.URISyntaxException e) {
     }
-		this.pluginManager = pluginManager;
+
+    // This may cause a memory leak
+    pluginManager.addPluginChangeListener(this);
+		
+    this.pluginManager = pluginManager;
 		initialized = true;
 		initExamples(pluginManager);
 	}
 
 	private void initExamples(PluginManager pluginManager) {
 		PluginContext pluginContext = pluginManager.getPluginContext(this);
+    initExamples(pluginContext);
+  }
+	private void initExamples(PluginContext pluginContext) {
 		try {
       
       InputStream names_in = base_path.resolve("all.txt").toURL().openStream();
