@@ -59,7 +59,7 @@ public class CompiledQueryPlugin implements QueryEnginePlugin, PluginChangeListe
 	@Override
 	public void init(PluginManager pluginManager) throws PluginException {
     try {
-      base_path = new URI("https://raw.githubusercontent.com/flaviusb/bim-bits/master/");
+      base_path = new URI("https://raw.githubusercontent.com/jdimyadi/bim-bits/master/");
     } catch (java.net.URISyntaxException e) {
     }
 
